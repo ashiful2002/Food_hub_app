@@ -1,3 +1,4 @@
+import HeroCarousel from "@/components/modules/home/HeroCarousel";
 import ProductCard from "@/components/modules/meals/ProductsCard";
 import { Button } from "@/components/ui/button";
 import { getAllMeals } from "@/services/meals";
@@ -9,6 +10,7 @@ export default async function Home() {
 
   return (
     <>
+      <HeroCarousel />
       <div className="">
         <h2 className="text-2xl font-semibold text-center my-5 ">
           Recently Added Meals

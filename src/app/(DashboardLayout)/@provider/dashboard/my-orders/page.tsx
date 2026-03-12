@@ -20,6 +20,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import OrderStatusSelect from "@/components/modules/provider/OrderStatusSelect";
+import FormattedDate from "@/components/Shared/FormattedDate";
 
 const page = async ({ searchParams }: any) => {
   const params = await searchParams;
@@ -91,7 +92,7 @@ const page = async ({ searchParams }: any) => {
                     </TableCell>
 
                     <TableCell>
-                      {new Date(order.orderedAt).toLocaleDateString()}
+                      <FormattedDate date={order.orderedAt} />
                     </TableCell>
                   </TableRow>
                 ))

@@ -90,7 +90,7 @@ export async function updateUserRole(userId: string, role: string) {
     }
   );
 
-  console.log("STATUS:", res.status);
+  // console.log("STATUS:", res.status);
 
   if (!res.ok) {
     const error = await res.json();

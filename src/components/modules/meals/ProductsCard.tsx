@@ -9,13 +9,18 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Star, Eye, MapPin } from "lucide-react";
+import {
+  Star,
+  Eye,
+  MapPin,
+  CarTaxiFrontIcon,
+  ShoppingCart,
+} from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-
 
 export default function ProductCard({ product }: any) {
   const router = useRouter();
@@ -116,7 +121,7 @@ export default function ProductCard({ product }: any) {
           <CardFooter className="p-5 pt-0 flex flex-wrap gap-3 justify-end">
             <Link href={`/meals/${product.id}`} className="w-full">
               <Button
-                size={"xs"}
+                size={"sm"}
                 variant={"outline"}
                 className="cursor-pointer w-full rounded-xl text-base font-semibold"
               >
@@ -126,10 +131,10 @@ export default function ProductCard({ product }: any) {
 
             <Button
               onClick={() => handleAddToCart(product)}
-              size={"xs"}
+              size={"sm"}
               className="cursor-pointer w-full rounded-xl text-base font-semibold"
             >
-              Add to Cart
+              Add to Cart <ShoppingCart />
             </Button>
           </CardFooter>
         </Card>

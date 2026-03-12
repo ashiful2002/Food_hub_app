@@ -17,7 +17,7 @@ export const createReviews = async (payload: any) => {
       },
       body: JSON.stringify(payload),
     });
-    console.log(res);
+    // console.log(res);
 
   if (!res.ok) {
   const error = await res.json();

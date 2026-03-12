@@ -32,7 +32,7 @@ export const getProvidersAllMeals = async () => {
         },
       }
     );
-    console.log(res);
+    // console.log(res);
 
     if (!res.ok) {
       throw new Error("Failed to fetch meals");

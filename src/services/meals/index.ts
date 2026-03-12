@@ -43,7 +43,7 @@ export const getSingleMeal = async (id: string) => {
     const res = await fetch(`${BASE_URL}/meals/${id}`, {
       cache: "no-store",
     });
-    console.log(res);
+    // console.log(res);
 
     if (!res.ok) {
       throw new Error("Failed to fetch meal");

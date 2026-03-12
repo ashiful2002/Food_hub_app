@@ -29,7 +29,7 @@ export async function createCategory(data: any) {
     },
     body: JSON.stringify(data),
   });
-  console.log("Sending data:", data);
+  // console.log("Sending data:", data);
   const result = await res.json();
 
   if (!res.ok) {

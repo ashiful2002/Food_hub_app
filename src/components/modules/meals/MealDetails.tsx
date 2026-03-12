@@ -43,7 +43,7 @@ const MealDetails = ({ meal }: any) => {
       toast.error("Failed to update cart");
     }
   };
-  console.log(meal);
+  // console.log(meal);
 
   return (
     <div className="min-h-screen bg-muted/40 p-6 md:p-10 flex justify-center">

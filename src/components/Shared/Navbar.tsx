@@ -92,11 +92,15 @@ export default function Navbar() {
                 <Button>Dashboard</Button>
               </Link>
               <LogOut />
+              <ModeToggle />
             </>
           ) : (
-            <Link href={"/login"}>
-              <Button>Login</Button>
-            </Link>
+            <>
+              <Link href={"/login"}>
+                <Button>Login</Button>
+              </Link>
+              <ModeToggle />
+            </>
           )}
         </div>
 
@@ -134,7 +138,7 @@ export default function Navbar() {
                 </>
               ) : (
                 <>
-                  <ModeToggle /> 
+                  <ModeToggle />
                   <Link href={"/login"}>
                     <Button>Login</Button>
                   </Link>

@@ -16,7 +16,7 @@ const ROLE_COLORS: Record<string, string> = {
 const ProfilePage = async () => {
   const response = await getProfile();
   const user = response?.data?.user;
-  console.log(user);
+  // console.log(user);
 
   if (!user) {
     return (

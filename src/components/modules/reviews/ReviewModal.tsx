@@ -27,7 +27,7 @@ const ReviewModal = ({ mealId, orderId }: any) => {
       comment,
     };
 
-    console.log(payload);
+    // console.log(payload);
     const result = await createReviews(payload);
     toast.success("Review submitted successfully");
 
