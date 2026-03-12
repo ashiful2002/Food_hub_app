@@ -47,6 +47,29 @@ export const loginUser = async (data: LoginPayload) => {
     console.log(error);
   }
 };
+// register new user
+export const registerUser = async (data: any) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_API}/auth/register`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }
+    );
+
+    if (!res.ok) {
+      const error = await res.json();
+      throw new Error(error.message || "Signup failed");
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
 
 export const getUser = async (): Promise<User | null> => {
   const cookieStore = await cookies();

@@ -1,5 +1,3 @@
-import BlankProvidersMeals from "@/components/modules/Providers/BlankProvidersMeals";
-import ProvidersMenutable from "@/components/modules/Providers/ProvidersMenuTable";
 import { getSingleProvider } from "@/services/Providers";
 
 export default async function Page({
@@ -9,7 +7,7 @@ export default async function Page({
 }) {
   const { id } = await params;
   const { data } = await getSingleProvider(id);
- 
+
   return (
     <>
       {data && (
@@ -80,7 +78,9 @@ export default async function Page({
 
                   <div>
                     <p className="text-sm text-gray-500">Provider ID</p>
-                    <p className="font-medium text-xs break-all text-gray-500">{data?.id}</p>
+                    <p className="font-medium text-xs break-all text-gray-500">
+                      {data?.id}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -88,10 +88,12 @@ export default async function Page({
           </div>
 
           {data.meals.length > 0 ? (
-            <ProvidersMenutable meals={data.meals} />
+            // <ProvidersMenutable meals={data.meals} />
+            "blank"
           ) : (
             <>
-              <BlankProvidersMeals />
+              {/* <BlankProvidersMeals /> */}
+              blank
             </>
           )}
         </div>

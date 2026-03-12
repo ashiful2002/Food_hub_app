@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 import {
   Form,
   FormControl,
@@ -26,13 +26,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+
 import { addMeal } from "@/services/meals";
 import { toast } from "sonner";
+
 const demoCategories = [
   { id: "259abcd5-c531-45ad-9af4-ca7a1774c4f4", name: "Fast Food" },
 ];
 
-const dietaryOptions = ["VEG", "NON_VEG", "VEGAN", "GLUTEN_FREE"];
+const dietaryOptions = ["VEG", "HALAL", "GLUTEN_FREE"] as const;
 
 const formSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
@@ -45,7 +47,6 @@ const formSchema = z.object({
 });
 
 export default function AddMealForm({ categoriesParams }: any) {
-  const [selectedDietary, setSelectedDietary] = useState<string[]>([]);
   const categories =
     categoriesParams?.length > 0 ? categoriesParams : demoCategories;
 
@@ -63,41 +64,21 @@ export default function AddMealForm({ categoriesParams }: any) {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log("Submitted Meal:", values);
+    // console.log("Submitted Meal:", values);
 
-    // Later replace with real API call
-    /*
-    await fetch("/api/meals", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    })
-    */
     try {
       const result = await addMeal(values);
-      console.log("this is res error", result);
 
       if (result.success) {
         toast.success(result.message, { position: "top-right" });
+        form.reset();
       } else {
         toast.error(result.message);
       }
     } catch (error: any) {
       console.log(error);
+      toast.error(error.message);
     }
-  };
-
-  const handleDietaryChange = (value: string) => {
-    let updated: string[] = [];
-
-    if (selectedDietary.includes(value)) {
-      updated = selectedDietary.filter((item) => item !== value);
-    } else {
-      updated = [...selectedDietary, value];
-    }
-
-    setSelectedDietary(updated);
-    form.setValue("dietary", updated);
   };
 
   return (
@@ -106,9 +87,11 @@ export default function AddMealForm({ categoriesParams }: any) {
         <CardHeader>
           <CardTitle className="text-2xl font-bold">Add New Meal</CardTitle>
         </CardHeader>
+
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              
               {/* Name */}
               <FormField
                 control={form.control}
@@ -154,7 +137,7 @@ export default function AddMealForm({ categoriesParams }: any) {
                 )}
               />
 
-              {/* Image URL */}
+              {/* Image */}
               <FormField
                 control={form.control}
                 name="image"
@@ -179,6 +162,7 @@ export default function AddMealForm({ categoriesParams }: any) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Category</FormLabel>
+
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
@@ -188,6 +172,7 @@ export default function AddMealForm({ categoriesParams }: any) {
                           <SelectValue placeholder="Select category" />
                         </SelectTrigger>
                       </FormControl>
+
                       <SelectContent>
                         {categories?.map((category: any) => (
                           <SelectItem key={category.id} value={category.id}>
@@ -196,26 +181,59 @@ export default function AddMealForm({ categoriesParams }: any) {
                         ))}
                       </SelectContent>
                     </Select>
+
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
               {/* Dietary */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Dietary</label>
-                <div className="flex gap-6 flex-wrap">
-                  {dietaryOptions.map((option) => (
-                    <div key={option} className="flex items-center gap-2">
-                      <Checkbox
-                        checked={selectedDietary.includes(option)}
-                        onCheckedChange={() => handleDietaryChange(option)}
-                      />
-                      <span className="text-sm">{option}</span>
+              <FormField
+                control={form.control}
+                name="dietary"
+                render={() => (
+                  <FormItem>
+                    <FormLabel>Dietary</FormLabel>
+
+                    <div className="flex gap-6 flex-wrap">
+                      {dietaryOptions.map((option) => (
+                        <FormField
+                          key={option}
+                          control={form.control}
+                          name="dietary"
+                          render={({ field }) => {
+                            return (
+                              <FormItem className="flex items-center gap-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value?.includes(option)}
+                                    onCheckedChange={(checked) => {
+                                      return checked
+                                        ? field.onChange([
+                                            ...(field.value || []),
+                                            option,
+                                          ])
+                                        : field.onChange(
+                                            field.value?.filter(
+                                              (value) => value !== option
+                                            )
+                                          );
+                                    }}
+                                  />
+                                </FormControl>
+
+                                <FormLabel className="text-sm font-normal">
+                                  {option}
+                                </FormLabel>
+                              </FormItem>
+                            );
+                          }}
+                        />
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </div>
+                  </FormItem>
+                )}
+              />
 
               {/* Availability */}
               <FormField
@@ -223,9 +241,8 @@ export default function AddMealForm({ categoriesParams }: any) {
                 name="isAvailable"
                 render={({ field }) => (
                   <FormItem className="flex items-center justify-between rounded-lg border p-4">
-                    <div>
-                      <FormLabel>Available</FormLabel>
-                    </div>
+                    <FormLabel>Available</FormLabel>
+
                     <FormControl>
                       <Switch
                         checked={field.value}
@@ -239,6 +256,7 @@ export default function AddMealForm({ categoriesParams }: any) {
               <Button type="submit" className="w-full text-base font-semibold">
                 Create Meal
               </Button>
+
             </form>
           </Form>
         </CardContent>

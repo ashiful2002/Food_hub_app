@@ -42,16 +42,16 @@ const navMain: NavItem[] = [
     isActive: true,
     items: [
       {
+        title: "Dashboard",
+        url: "/dashboard",
+      },
+      {
         title: "Add Meal",
         url: "/dashboard/add-meal",
       },
       {
         title: "My meals",
         url: "/dashboard/my-meals",
-      },
-      {
-        title: "Settings",
-        url: "#",
       },
     ],
   },
@@ -64,12 +64,20 @@ const providers_dashboard: NavItem[] = [
     isActive: true,
     items: [
       {
-        title: "Add Meal",
+        title: "Dashboard",
+        url: "/dashboard",
+      },
+      {
+        title: "Add Meals",
         url: "/dashboard/add-meal",
       },
       {
-        title: "My meals",
+        title: "Menu",
         url: "/dashboard/my-meals",
+      },
+      {
+        title: "Orders",
+        url: "/dashboard/my-orders",
       },
     ],
   },
@@ -78,17 +86,25 @@ const providers_dashboard: NavItem[] = [
 const admin_nav: NavItem[] = [
   {
     title: "Admin Dashboard",
-    url: "#",
+    url: "/dashboard",
     icon: UserIcon,
     isActive: true,
     items: [
+      {
+        title: "Dashboard",
+        url: "/dashboard",
+      },
       {
         title: "Manage Users",
         url: "/dashboard/users",
       },
       {
-        title: "My meals",
-        url: "/dashboard/",
+        title: "All Orders",
+        url: "/dashboard/orders",
+      },
+      {
+        title: "Manage Categories",
+        url: "/dashboard/categories",
       },
     ],
   },

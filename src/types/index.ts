@@ -40,3 +40,10 @@ export type User = {
 };
 
 export type UserRole = "ADMIN" | "PROVIDER" | "CUSTOMER";
+
+export type CartItem = {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+};

@@ -4,6 +4,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import LogOut from "@/components/Buttons/Logout";
 import UpdateProfileModal from "@/components/modules/customers/UpdateProfileModal";
 import { getProfile } from "@/services/profile";
+import Image from "next/image";
+import FormattedDate from "@/components/Shared/FormattedDate";
 
 const ROLE_COLORS: Record<string, string> = {
   ADMIN: "bg-red-500",
@@ -27,11 +29,11 @@ const ProfilePage = async () => {
   const hasAddress = user.street || user.city || user.postalCode;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-100 flex items-center justify-center p-6">
+    <div className="min-h-screen to-red-10 flex items-center justify-center p-6">
       <Card className="w-full max-w-2xl shadow-2xl rounded-2xl border-none">
         <CardHeader className="flex flex-col items-center gap-4 text-center">
           <Avatar className="w-24 h-24 border-4 border-white shadow-lg">
-            <AvatarImage src={user.avatar || ""} />
+            <Image src={user.avatar} alt="sda" fill />
             <AvatarFallback className="text-2xl font-bold bg-red-500 text-white">
               {user.name.charAt(0)}
             </AvatarFallback>
@@ -109,13 +111,13 @@ const ProfilePage = async () => {
             <div>
               <p className="text-sm text-gray-500">Account Created</p>
               <p className="font-medium">
-                {new Date(user.createdAt).toLocaleDateString()}
+                <FormattedDate date={user.createdAt} />
               </p>
             </div>
             <div>
               <p className="text-sm text-gray-500">Last Updated</p>
               <p className="font-medium">
-                {new Date(user.updatedAt).toLocaleDateString()}
+                <FormattedDate date={user.updatedAt} />
               </p>
             </div>
           </div>

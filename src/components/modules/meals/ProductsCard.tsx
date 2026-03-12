@@ -15,6 +15,8 @@ import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+
+
 export default function ProductCard({ product }: any) {
   const router = useRouter();
 
@@ -112,13 +114,13 @@ export default function ProductCard({ product }: any) {
           </CardContent>
           <Separator />
           <CardFooter className="p-5 pt-0 flex flex-wrap gap-3 justify-end">
-            <Link href={`/meals/${product.id}`}>
+            <Link href={`/meals/${product.id}`} className="w-full">
               <Button
                 size={"xs"}
                 variant={"outline"}
                 className="cursor-pointer w-full rounded-xl text-base font-semibold"
               >
-                Order Now
+                View Details
               </Button>
             </Link>
 

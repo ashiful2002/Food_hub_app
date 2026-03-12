@@ -124,13 +124,17 @@ export default function Navbar() {
                   {link.name}
                 </Link>
               ))}
-              <ModeToggle />
               {user ? (
                 <>
+                  <Link href={"/dashboard"}>
+                    <Button>Dashboard</Button>
+                  </Link>{" "}
+                  <ModeToggle />
                   <LogOut />
                 </>
               ) : (
                 <>
+                  <ModeToggle /> 
                   <Link href={"/login"}>
                     <Button>Login</Button>
                   </Link>

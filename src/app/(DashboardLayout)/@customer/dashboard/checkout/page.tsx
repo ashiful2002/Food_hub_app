@@ -4,15 +4,18 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { createOrder } from "@/services/orders";
 
 const CheckoutPage = () => {
   const [cart, setCart] = useState<any[]>([]);
-
   const router = useRouter();
+
   const [form, setForm] = useState({
     name: "",
     phone: "",
-    address: "",
+    street: "",
+    city: "",
+    postalCode: "",
     notes: "",
   });
 
@@ -26,20 +29,26 @@ const CheckoutPage = () => {
     0
   );
 
-  const handleSubmit = () => {
-    const orderData = {
-      items: cart,
-      deliveryInfo: form,
-      totalPrice,
-      paymentMethod: "Cash on Delivery",
-    };
+  const handleSubmit = async () => {
+    try {
+      const payload = {
+        street: form.street,
+        city: form.city,
+        postalCode: form.postalCode,
+        phone: form.phone,
+        items: cart.map((item) => ({
+          mealId: item.id,
+          quantity: item.quantity,
+        })),
+      };
+      await createOrder(payload);
 
-    toast.success("placed order successfull", { position: "top-right" });
-    // later send to API
-    // await createOrder(orderData)
-
-    localStorage.removeItem("cart");
-    router.push("/dashboard/orders");
+      toast.success("Order placed successfully", { position: "top-right" });
+      localStorage.removeItem("cart");
+      router.push("/dashboard/orders");
+    } catch (error) {
+      toast.error("Failed to place order");
+    }
   };
 
   return (
@@ -60,10 +69,22 @@ const CheckoutPage = () => {
           onChange={(e) => setForm({ ...form, phone: e.target.value })}
         />
 
-        <textarea
-          placeholder="Delivery Address"
+        <input
+          placeholder="Street Address"
           className="border p-2 w-full rounded"
-          onChange={(e) => setForm({ ...form, address: e.target.value })}
+          onChange={(e) => setForm({ ...form, street: e.target.value })}
+        />
+
+        <input
+          placeholder="City"
+          className="border p-2 w-full rounded"
+          onChange={(e) => setForm({ ...form, city: e.target.value })}
+        />
+
+        <input
+          placeholder="Postal Code"
+          className="border p-2 w-full rounded"
+          onChange={(e) => setForm({ ...form, postalCode: e.target.value })}
         />
 
         <textarea

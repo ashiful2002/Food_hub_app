@@ -13,6 +13,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import FormattedDate from "@/components/Shared/FormattedDate";
 
 const Page = async () => {
   const result = await getOrders();
@@ -59,7 +60,9 @@ const Page = async () => {
                   <TableCell>{order.phone}</TableCell>
 
                   <TableCell>
-                    {new Date(order.orderedAt).toLocaleDateString()}
+                    <FormattedDate date={order.orderedAt} showTime />
+
+                    {/* {new Date(order.orderAt).toLocaleDateString()} */}
                   </TableCell>
 
                   <TableCell className="text-right">

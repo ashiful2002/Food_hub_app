@@ -2,6 +2,7 @@ import MealsFilter from "@/components/modules/meals/MealFilter";
 import ProductCard from "@/components/modules/meals/ProductsCard";
 import { getAllMeals } from "@/services/meals";
 import MealsPagination from "@/components/modules/meals/MealsPagination";
+import Pagination from "@/components/Shared/Pagination";
 
 const page = async ({
   searchParams,
@@ -13,7 +14,7 @@ const page = async ({
   const { data } = await getAllMeals(params);
   const meals = data.data;
   const meta = data.meta;
- 
+
   return (
     <div>
       <MealsFilter />
@@ -27,8 +28,7 @@ const page = async ({
               <ProductCard product={product} key={product.id} />
             ))}
           </div>
-
-          <MealsPagination totalPage={meta.totalPage} />
+          <Pagination totalPage={meta.totalPage} />
         </>
       )}
     </div>

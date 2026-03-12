@@ -13,7 +13,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { UserLogOut } from "@/services/authentication";
- 
+
 const LogOut = () => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -45,7 +45,11 @@ const LogOut = () => {
           <Button variant="outline" onClick={() => setOpen(false)}>
             Cancel
           </Button>
-          <Button variant="destructive" onClick={handleLogOut}>
+          <Button
+            className="cursor-pointer"
+            variant="destructive"
+            onClick={handleLogOut}
+          >
             Log Out
           </Button>
         </DialogFooter>

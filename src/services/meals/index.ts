@@ -5,30 +5,6 @@ import { cookies } from "next/headers";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_API;
 
-/**
- * Get all meals
- */
-// export const getAllMeals = async (params?: Record<string, any>) => {
-//   const query = new URLSearchParams(params).toString();
-//   try {
-//     const res = await fetch(`${BASE_URL}/meals?${query}`, {
-//       // next: {
-//       //   tags: ["meals"],
-//       // },
-//       cache: "no-store",
-//     });
-
-//     if (!res.ok) {
-//       throw new Error("Failed to fetch meals");
-//     }
-
-//     const result = await res.json();
-//     return result;
-//   } catch (error: any) {
-//     throw new Error(error.message);
-//   }
-// };
-
 export const getAllMeals = async (params?: Record<string, any>) => {
   const query = params
     ? new URLSearchParams(
@@ -61,40 +37,13 @@ export const getAllMeals = async (params?: Record<string, any>) => {
   }
 };
 
-/**
- * Get featured meals
- */
-// export const featuredMeals = async () => {
-//   try {
-//     const res = await fetch(`${BASE_URL}/meals`, {
-//       next: {
-//         tags: ["meals"],
-//       },
-//     });
 
-//     if (!res.ok) {
-//       throw new Error("Failed to fetch meals");
-//     }
-
-//     const result = await res.json();
-
-//     // Example: filter featured meals
-//     const featured = result?.data?.filter((meal: any) => meal.featured);
-
-//     return featured;
-//   } catch (error: any) {
-//     throw new Error(error.message);
-//   }
-// };
-
-/**
- * Get single meal
- */
 export const getSingleMeal = async (id: string) => {
   try {
     const res = await fetch(`${BASE_URL}/meals/${id}`, {
       cache: "no-store",
     });
+    console.log(res);
 
     if (!res.ok) {
       throw new Error("Failed to fetch meal");
@@ -119,11 +68,11 @@ export const addMeal = async (payload: any) => {
   }
 
   try {
-    const res = await fetch(`${BASE_URL}/meals`, {
+    const res = await fetch(`${BASE_URL}/provider/meals`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: token, // use `Bearer ${token}` if your backend requires it
+        Authorization: token!,
       },
       body: JSON.stringify(payload),
     });
@@ -134,11 +83,12 @@ export const addMeal = async (payload: any) => {
       throw new Error(result.message || "Failed to add meal");
     }
 
-    // Refresh all cached meal data
     revalidateTag("meals", {});
 
     return result;
   } catch (error: any) {
+    console.log(error);
+
     throw new Error(error.message);
   }
 };

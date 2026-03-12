@@ -8,9 +8,7 @@ import ReviewModal from "@/components/modules/reviews/ReviewModal";
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
-  const { data } = await getSingleOrder(id);
-
-  const order = data;
+  const { data: order } = await getSingleOrder(id);
 
   return (
     <div className="p-6 max-w-4xl mx-auto space-y-6">
@@ -127,6 +125,9 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
             <div key={item.id} className="space-y-3">
               <div className="flex justify-between items-center text-sm">
                 <div>
+                  <p className="text-xl capitalize">
+                    <>Meal name:</> {item.name}
+                  </p>
                   <p>
                     <strong>Meal ID:</strong> {item.mealId}
                   </p>
@@ -143,7 +144,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
                 {/* Review Section */}
                 <div>
                   {order.status === "DELIVERED" ? (
-                    <ReviewModal mealId={item.mealId}   />
+                    <ReviewModal mealId={item.mealId} />
                   ) : (
                     <Badge variant="outline">
                       Review available after delivery

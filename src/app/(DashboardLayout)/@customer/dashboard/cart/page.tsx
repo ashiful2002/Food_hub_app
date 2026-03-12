@@ -56,68 +56,71 @@ const Page = () => {
   }
 
   return (
-    <div className="max-w-5xl mx-auto py-10 space-y-6">
-      <h2 className="text-2xl font-bold">Your Cart</h2>
+    <div className=" w-5xl mx-auto py-10 space-y-6">
+      <h2 className="text-2xl font-bold text-center">Your Cart</h2>
 
       <div className="space-y-4">
         {cart.map((item) => (
-          <div
-            key={item.id}
-            className="flex items-center justify-between border rounded-xl p-4"
-          >
-            <div className="flex items-center gap-4">
-              <Image
-                src={item.image}
-                alt={item.name}
-                width={70}
-                height={70}
-                className="rounded-lg object-cover"
-              />
+          <div key={item.id} className="flex flex-col border rounded-xl p-4">
+            <div className="border   p-4">
+              <div className="flex items-center gap-4">
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  width={70}
+                  height={70}
+                  className="rounded-lg object-cover"
+                />
 
-              <div>
-                <h3 className="font-semibold">{item.name}</h3>
-                <p className="text-sm text-muted-foreground">${item.price}</p>
+                <div>
+                  <h3 className="font-semibold capitalize">{item.name}</h3>
+                  <p className="text-sm text-muted-foreground">${item.price}</p>
+                </div>
               </div>
             </div>
+            <div className="border   flex items-center justify-around p-4">
+              {/* Quantity Controls */}
+              <div className="flex items-center gap-5">
+                <Button
+                  className="cursor-pointer"
+                  size="icon"
+                  variant="outline"
+                  onClick={() => decreaseQty(item.id)}
+                >
+                  <Minus size={16} />
+                </Button>
 
-            {/* Quantity Controls */}
-            <div className="flex items-center gap-2">
+                <span className="font-medium">{item.quantity}</span>
+
+                <Button
+                  className="cursor-pointer"
+                  size="icon"
+                  variant="outline"
+                  onClick={() => increaseQty(item.id)}
+                >
+                  <Plus size={16} />
+                </Button>
+              </div>
+
+              {/* Item Total */}
+              <div className="font-semibold">${item.price * item.quantity}</div>
+
+              {/* Remove */}
               <Button
+                className="cursor-pointer"
                 size="icon"
-                variant="outline"
-                onClick={() => decreaseQty(item.id)}
+                variant="destructive"
+                onClick={() => removeItem(item.id)}
               >
-                <Minus size={16} />
-              </Button>
-
-              <span className="font-medium">{item.quantity}</span>
-
-              <Button
-                size="icon"
-                variant="outline"
-                onClick={() => increaseQty(item.id)}
-              >
-                <Plus size={16} />
+                <Trash2 size={16} />
               </Button>
             </div>
-
-            {/* Item Total */}
-            <div className="font-semibold">${item.price * item.quantity}</div>
-
-            {/* Remove */}
-            <Button
-              size="icon"
-              variant="destructive"
-              onClick={() => removeItem(item.id)}
-            >
-              <Trash2 size={16} />
-            </Button>
           </div>
         ))}
       </div>
 
       {/* Total Section */}
-      <div className="flex justify-between items-center border-t pt-6">
+      <div className="flex flex-col md:flex-row justify-around gap-4 border-t pt-6">
         <h3 className="text-xl font-semibold">
           Total: ${totalPrice.toFixed(2)}
         </h3>

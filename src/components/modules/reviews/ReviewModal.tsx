@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Star } from "lucide-react";
 import { toast } from "sonner";
+import { createReviews } from "@/services/reviews";
 
 const ReviewModal = ({ mealId, orderId }: any) => {
   const [open, setOpen] = useState(false);
@@ -27,10 +28,10 @@ const ReviewModal = ({ mealId, orderId }: any) => {
     };
 
     console.log(payload);
-
-    // await createReview(payload)
-
+    const result = await createReviews(payload);
     toast.success("Review submitted successfully");
+
+
     setRating(0);
     setComment("");
     setOpen(false);
@@ -38,13 +39,15 @@ const ReviewModal = ({ mealId, orderId }: any) => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild >
-        <Button className="cursor-pointer" size="sm">Leave Review</Button>
+      <DialogTrigger asChild>
+        <Button className="cursor-pointer" size="sm">
+          Write Review
+        </Button>
       </DialogTrigger>
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Leave a Review</DialogTitle>
+          <DialogTitle>Write a Review</DialogTitle>
         </DialogHeader>
 
         {/* Star Rating */}
