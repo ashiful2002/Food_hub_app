@@ -16,37 +16,46 @@ export interface LoginPayload {
   password: string;
 }
 
-export interface LoginPayload {
-  email: string;
-  password: string;
-}
-
 export const loginUser = async (data: LoginPayload) => {
   const cookieStore = await cookies();
+
+  let res: Response;
+
+  // Separate network errors from API errors
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_API}/auth/login`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      }
-    );
-
-    if (!res.ok) {
-      const error = await res.json();
-      throw new Error(error.message || "Login failed");
-    }
-
-    const result = await res.json();
-
-    if (result.success) {
-      cookieStore.set("token", result.data.token);
-    }
-  } catch (error) {
-    console.log(error);
+    res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+  } catch {
+    throw new Error("Unable to reach the server. Check your connection.");
   }
+
+  // Parse body once — safe for both ok and error responses
+  const body = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    throw new Error(
+      res.status === 500
+        ? "Invalid email or password."
+        : body.message ?? "Login failed. Please try again."
+    );
+  }
+
+  if (!body.success) {
+    throw new Error(body.message ?? "Login failed. Please try again.");
+  }
+
+  cookieStore.set("token", body.data.token, {
+    httpOnly: true, // JS can't read it — XSS protection
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "none",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 7, // 1 week — adjust to your token's expiry
+  });
 };
+
 // register new user
 export const registerUser = async (data: any) => {
   try {

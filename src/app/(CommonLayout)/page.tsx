@@ -1,31 +1,37 @@
+import HcatCard from "@/components/modules/categories/home/HcatCard";
 import HeroCarousel from "@/components/modules/home/HeroCarousel";
-import ProductCard from "@/components/modules/meals/ProductsCard";
-import { Button } from "@/components/ui/button";
-import { getAllMeals } from "@/services/meals";
-import Link from "next/link";
+import RecentlyAddedMeals from "@/components/modules/home/RecentlyAddedMeals";
+import MealsCardSkeleton from "@/components/modules/meals/MealsCardSkeleton";
+import { getCategories } from "@/services/categories";
+import { Suspense } from "react";
 
 export default async function Home() {
-  const { data } = await getAllMeals();
-  const meals = data.data;
+  // Only fetch categories here (lightweight)
+  const { data: categoriesdata } = await getCategories();
+  const categories = categoriesdata || [];
 
   return (
     <>
       <HeroCarousel />
-      <div className="">
-        <h2 className="text-2xl font-semibold text-center my-5 ">
-          Recently Added Meals
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 ">
-          {meals?.slice(0, 6).map((product: any, index: number) => (
-            <ProductCard product={product} key={index} />
-          ))}
-        </div>
-        <div className="flex items-center justify-center mt-4">
-          <Link href={"/meals"}>
-            <Button className="cursor-pointer">View All</Button>
-          </Link>
-        </div>
-      </div>
+      <HcatCard categories={categories} />
+
+      <Suspense
+        fallback={
+          <div className="px-4">
+            <h2 className="text-2xl font-semibold my-5">
+              Recently Added Meals
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <MealsCardSkeleton key={i} />
+              ))}
+            </div>
+          </div>
+        }
+      >
+        <RecentlyAddedMeals />
+      </Suspense>
     </>
   );
 }

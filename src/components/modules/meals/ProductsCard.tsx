@@ -21,6 +21,7 @@ import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { ImagePlaceholderIcon } from "../categories/home/ImagePlaceholderIcon";
 
 export default function ProductCard({ product }: any) {
   const router = useRouter();
@@ -57,12 +58,16 @@ export default function ProductCard({ product }: any) {
         <Card className="overflow-hidden rounded-2xl shadow-xl border-0">
           <CardHeader className="p-0 relative">
             <div className="relative h-56 w-full">
-              <Image
-                src={product.image}
-                alt={product.name}
-                fill
-                className="object-cover"
-              />
+              {product.image ? (
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  className="object-cover"
+                />
+              ) : (
+                <ImagePlaceholderIcon />
+              )}
               <div className="absolute top-3 left-3">
                 <Badge
                   className={`px-3 py-1 text-xs font-semibold rounded-full ${

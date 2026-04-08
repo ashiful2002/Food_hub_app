@@ -64,8 +64,6 @@ export default function AddMealForm({ categoriesParams }: any) {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // console.log("Submitted Meal:", values);
-
     try {
       const result = await addMeal(values);
 
@@ -91,7 +89,6 @@ export default function AddMealForm({ categoriesParams }: any) {
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              
               {/* Name */}
               <FormField
                 control={form.control}
@@ -256,7 +253,6 @@ export default function AddMealForm({ categoriesParams }: any) {
               <Button type="submit" className="w-full text-base font-semibold">
                 Create Meal
               </Button>
-
             </form>
           </Form>
         </CardContent>

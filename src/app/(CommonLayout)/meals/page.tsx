@@ -1,7 +1,6 @@
 import MealsFilter from "@/components/modules/meals/MealFilter";
 import ProductCard from "@/components/modules/meals/ProductsCard";
 import { getAllMeals } from "@/services/meals";
-import MealsPagination from "@/components/modules/meals/MealsPagination";
 import Pagination from "@/components/Shared/Pagination";
 
 const page = async ({
@@ -23,7 +22,7 @@ const page = async ({
         "empty meals"
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {meals?.map((product: any) => (
               <ProductCard product={product} key={product.id} />
             ))}
